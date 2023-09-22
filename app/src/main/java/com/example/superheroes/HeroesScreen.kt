@@ -84,3 +84,70 @@ fun HeroesList(
         }
     }
 }
+@Composable
+fun HeroListItem(
+    hero: Hero,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        modifier = modifier,
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .sizeIn(minHeight = 72.dp)
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = stringResource(hero.nameRes),
+                    style = MaterialTheme.typography.displaySmall
+                )
+                Text(
+                    text = stringResource(hero.descriptionRes),
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+            Spacer(Modifier.width(16.dp))
+            Box(
+                modifier = Modifier
+                    .size(72.dp)
+                    .clip(RoundedCornerShape(8.dp))
+
+            ) {
+                Image(
+                    painter = painterResource(hero.imageRes),
+                    contentDescription = null,
+                    alignment = Alignment.TopCenter,
+                    contentScale = ContentScale.FillWidth
+                )
+            }
+        }
+    }
+}
+@Preview("Light Theme")
+@Preview("Dark Theme", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun HeroPreview() {
+    val hero = Hero(
+        R.string.hero1,
+        R.string.description1,
+        R.drawable.android_superhero1
+    )
+    SuperheroesTheme {
+        HeroListItem(hero = hero)
+    }
+}
+
+@Preview("Heroes List")
+@Composable
+fun HeroesPreview() {
+    SuperheroesTheme(darkTheme = false) {
+        Surface (
+            color = MaterialTheme.colorScheme.background
+        ) {
+            HeroesList(heroes = HeroesRepository.heroes)
+        }
+    }
+}
